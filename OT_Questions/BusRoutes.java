@@ -1,3 +1,4 @@
+package OT_Questions;
 import java.util.*;
 
 public class BusRoutes {
@@ -8,7 +9,7 @@ public class BusRoutes {
 
         // Step 2: Traverse and merge overlapping intervals
         int count = 0;
-        int start = routes[0][0];
+        //int start = routes[0][0];
         int end = routes[0][1];
 
         for(int i = 1; i<routes.length; i++){
@@ -18,7 +19,7 @@ public class BusRoutes {
             } else {
                 //no overlap -> finalize one bus
                 count ++;
-                start = routes[i][0];
+                //start = routes[i][0];
                 end = routes[i][1];
             }
         }
