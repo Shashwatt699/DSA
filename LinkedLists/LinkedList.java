@@ -131,6 +131,7 @@ public class LinkedList {
         if (head == null) {
             return -1;
         }
+
         if (head.data == key) {
             return 0;
         }
@@ -153,7 +154,7 @@ public class LinkedList {
         Node curr = tail = head;
         Node next;
 
-        while(curr != null){
+        while (curr != null) {
             next = curr.next;
             curr.next = prev;
             prev = curr;
@@ -162,12 +163,127 @@ public class LinkedList {
         head = prev;
     }
 
+    public void deleteNthNodeFromEnd(int n) {
+        // finding size
+        int sz = 0;
+        Node temp = head;
+        while (temp != null) {
+            temp = temp.next;
+            sz++;
+        }
+
+        // Case
+        if (sz == n) {
+            head = head.next;
+            return;
+        }
+
+        int idx = 1;
+        int idxToFind = sz - n;
+        Node prev = head;
+        while (idx < idxToFind) {
+            prev = prev.next;
+            idx++;
+        }
+
+        prev.next = prev.next.next;
+        return;
+    }
+
+    public Node findMidNode(Node head) {
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next; // +1
+            fast = fast.next.next; // +2
+        }
+        return slow; // Slow is the middle
+    }
+
+    public boolean checkPalindrome() {
+        // Step 1 - Find midNode
+        if (head == null || head.next == null) {
+            return true;
+        }
+        Node mid = findMidNode(head);
+
+        // Step 2 - Reverse Second Half
+        Node prev = null;
+        Node curr = mid;
+        Node next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        Node right = prev;
+        Node left = head;
+
+        // Step 3 - Check if first and second halves are equal
+        while (right != null) {
+            if(left.data != right.data){
+                return false;
+            }
+
+            left = left.next;
+            right = right.next;
+        }
+        return true;
+    }
+
+    public boolean isCycle(){
+        Node slow = head;
+        Node fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void removeCycle() {
+        // Detect Cycle
+        Node slow = head;
+        Node fast = head;
+        boolean cycle = false;
+        while(fast != null && fast.next!= null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(fast == slow){
+                cycle = true;
+                break;
+            }
+        }
+        if(cycle == false){
+            return;
+        }
+
+        // find meeting point
+        slow = head;
+        Node prev = null;
+        while(fast != slow){
+            prev = fast;
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        // put prev's next to null to remove the cycle
+        prev.next = null;
+    } 
+
     public void print() {
         if (head == null) {
             System.out.println("LL is empty");
             return;
         }
         Node temp = head;
+        System.out.println();
         while (temp != null) {
             System.out.print(temp.data + " -> ");
             temp = temp.next;
@@ -177,6 +293,7 @@ public class LinkedList {
 
     public static void main(String[] args) {
         LinkedList ll = new LinkedList();
+        LinkedList pl = new LinkedList();
         ll.addFirst(1);
         ll.addFirst(2);
         ll.addLast(3);
@@ -193,6 +310,20 @@ public class LinkedList {
         System.out.println(ll.recSearch(8));
         ll.reverse();
         ll.print();
+        ll.deleteNthNodeFromEnd(4);
+        ll.print();
+
+        pl.addFirst(1);
+        pl.addLast(2);
+        pl.addLast(2);
+        pl.addLast(1);
+        pl.addFirst(1);
+        pl.addLast(2);
+        pl.addLast(3);
+        pl.addLast(1);
+        pl.isCycle();
+        pl.print();
+        System.out.println(pl.checkPalindrome());
     }
 
 }
