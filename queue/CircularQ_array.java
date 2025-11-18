@@ -21,7 +21,7 @@ public class CircularQ_array {
             return (rear + 1) % size == front; // If next of rear is front then queue is full
         }
 
-        // Add Operation Used 0(1) here instead of O(n)
+        // Add Operation -- Used 0(1) here instead of O(n)
         public static void add(int data) {
             if (isFull()) {
                 System.out.println("Queue is Full");
